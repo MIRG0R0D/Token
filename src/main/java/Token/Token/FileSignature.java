@@ -35,8 +35,8 @@ public class FileSignature {
         this.keyStoreFile = keyStoreFile;
     }
 
-    private static void printByte(byte[] b) {
-        System.out.println(b);
+    public static void printByte(byte[] b) {
+        System.out.println("byte link "+b);
         for (byte a : b) {
             System.out.print(a + " ");
         }
@@ -49,7 +49,7 @@ public class FileSignature {
     private String certAlias;
     private String keyStoreTyp;
     
-    private X509CertificateHolder getCert() throws GeneralSecurityException, IOException {
+    public X509CertificateHolder getCert() throws GeneralSecurityException, IOException {
         KeyStore keystore = getKeystore(password.toCharArray());
         java.security.cert.Certificate c = keystore.getCertificate(certAlias);
         if (c == null) {
@@ -66,7 +66,7 @@ public class FileSignature {
         return new X509CertificateHolder(c.getEncoded());
     }
 
-    private PrivateKey getPrivateKey() throws GeneralSecurityException, IOException {
+    public PrivateKey getPrivateKey() throws GeneralSecurityException, IOException {
         if (privateKey == null) {
             privateKey = initalizePrivateKey();
         }
@@ -144,9 +144,13 @@ public class FileSignature {
         // Getting the signed data
         CMSSignedData sigData = gen.generate(msg, true);
 
+        
+        //Sasha start 
+        
+        
 //        String config = "";
 //        SunPKCS11 provider = new SunPKCS11(config);
-        System.out.println(   verify(sigData, getCert()));
+ //       System.out.println(   verify(sigData, getCert()));
 
 /*
 //        ==========================OPEN ANOTHE KEYSTORE TO RESIEVE ANOTHER CERTIFICATE AND GOT VERIFY=FALSE =====================================================================================================================
@@ -223,6 +227,9 @@ public class FileSignature {
 //
 //        }
 
+        
+        
+        //Sasha finished 
 
         return sigData.getEncoded();
     }
